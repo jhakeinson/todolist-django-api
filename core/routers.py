@@ -1,3 +1,4 @@
+from core.todo.viewsets import TodoViewSet
 from rest_framework.routers import SimpleRouter
 from core.user.viewsets import UserViewSet
 from core.auth.viewsets import LoginViewSet, RegistrationViewSet, RefreshViewSet
@@ -12,6 +13,9 @@ routes.register(r'auth/refresh', RefreshViewSet, basename='auth-refresh')
 
 # USER
 routes.register(r'user', UserViewSet, basename='user')
+
+# TODO
+routes.register(r'todo', TodoViewSet, basename='todo')
 
 
 urlpatterns = [
