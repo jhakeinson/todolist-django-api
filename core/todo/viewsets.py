@@ -1,5 +1,7 @@
+import email
 from core.todo.serializers import TodoSerializer
 from core.todo.models import Todo
+from core.user.models import User
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import filters
@@ -13,7 +15,9 @@ class TodoViewSet(viewsets.ModelViewSet):
     ordering = ['-updated']
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
+        user = User.objects.get(email=self.request.user.email)
+        print('user: ', user)
+        if user.is_superuser:
             return Todo.objects.all()
         else:
             return Todo.objects.filter(user=self.request.user)
@@ -25,3 +29,7 @@ class TodoViewSet(viewsets.ModelViewSet):
         self.check_object_permissions(self.request, obj)
 
         return obj
+    
+    def destroy(self, request, *args, **kwargs):
+        print('destroy')
+        return super().destroy(request, *args, **kwargs)
